@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html >
+
+
+    <head>
+        <title>Great Rock Church</title>
+        <script src=https://cdnjs.cloudflare.com/ajax/libs/mathjs/3.3.0/math.min.js></script>
+        <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+        <style>
+            html{
+                background-color: goldenrod;
+                font-family: Arial, Helvetica, sans-serif;
+                padding: 1%;
+            }
+            .marquee{
+                height: 4%;
+                color: red;
+                background-color: black;
+            }
+            .navbar{
+                height: 10%;
+            }
+            .navbar ul{
+                list-style-type: none;
+                padding-bottom: 5%;
+            }
+            .navbar ul li{
+                color: black;
+                background-color: beige;
+                display:block;
+                float: right;
+                border: 3px solid black;
+                text-align: center;
+                height: 100%;
+                width: 15%;
+            }
+            .navbar ul li a{
+                text-decoration: none;
+                color: inherit;
+            }
+            .navbar ul li:hover{
+                background-color: black;
+                color: beige;
+            }
+            .clear{
+                clear: both;
+            }
+            header{
+                display: block;
+                width: 100%;
+                height: 20%;
+                background: linear-gradient(lightblue, white, white, white, white, lightblue);
+                border-radius: 1%;
+                border-bottom: 5px black solid;
+                border-top: 5px black solid;
+                float: none;
+                margin: 0 auto;
+
+            }
+            body{
+                width: 100%;
+                height: 20%;
+                margin-top: 3.5%;
+
+            }
+            @keyframes fadeIn {
+                0% { opacity: 0; }
+                100% { opacity: 1; }
+            }
+            #logo{
+                height: 100%;
+            }
+            #logo a img{
+                width:20%;
+                height:95%;
+                margin: 0 auto;
+                animation: fadeIn 3s;
+            }
+            header #bodyimage{
+                width: 100%;
+                height: 100%;
+                animation: fadeIn 3s;
+                display: block;
+                margin-left: auto;
+                margin-right: auto;
+                width: 50%;
+            }
+            
+            
+            .checkbox{
+                background-color: beige;
+                opacity: 75%;
+                padding: 2%;
+                width: 30%;
+                float: left;
+                border-radius: 5%;
+            }
+            .checkbox .cbtext{
+                color: black;
+                background-color: silver;
+                border: 5px outset black;
+                border-radius: 6%;
+                width: 100%;
+                text-align: center;
+            }
+            .checkbox .checkheading{
+                color: black;
+                background-color: gold;
+                border: 2px outset black;
+                border-radius: 6%;
+                width: 100%;
+                padding: 2%;
+                text-align: center;
+                margin: 0 auto;
+            }
+            footer{
+                text-align: center;
+                background-color: bisque;
+                padding: 0.5%;
+                margin-top: 2%;
+                height: 1%;
+                width: 25%;
+                margin: 0 auto;
+            }
+            .news{
+                background-color: whitesmoke;
+                border: 3px black outset;
+                float: right;
+                border-radius: 1%;
+                padding: 0.25%;
+            }
+            .news h3{
+                color: black;
+                padding: 3%;
+                border-bottom: 1px solid black;
+                text-align: center;
+            }
+        </style>
+
+    </head>
+
+    <div class="marquee">
+        <marquee scrollamount=12 direction="left">
+            <h2></h2>
+            <!-- Add alerts in <h2> tags here-->
+        </marquee>
+    </div>
+
+    <div id="logo">
+        <a href="https://greatrockchurch.org"><img src="images/header.png"/></a>
+    </div>
+
+
+
+     <div class="navbar" id="navbar">
+        <ul>
+            <li>
+                <a href = "mailto: office@greatrockchurch.org"><h3>Send Us An Email</h3></a>
+            </li>
+            <li>
+                <h3>Home</h3>
+            </li>
+            <li>
+                <h3>N/A</h3>
+            </li>
+            <li>
+                <h3>N/A</h3>
+            </li>
+        </ul>
+
+
+    </div>
+
+    <header>
+        
+        <div id="bodyimage">
+            <img src="images/header.png"/>
+        </div>
+    </header>
+
+    <body>
+        <br><br><br><br>
+
+        <div class="checkbox">
+            <h1 id="checkheading">Find the ministry for you</h1>
+            <br>
+            <form onsubmit="return query()">
+                <h2 class="cbtext">Your Demographics</h2>
+                <input type="checkbox" id="men" name="men" value="men">
+                <label for="men">Men's Groups</label><br>
+                <input type="checkbox" id="women" name="women" value="women">
+                <label for="women">Women's Groups</label><br>
+                <input type="checkbox" id="youth" name="youth" value="youth">
+                <label for="youth">Youth Groups</label><br>
+                <br>
+                <h2 class="cbtext">Affinity</h2>
+                <input type="checkbox" id="biblestudy" name="biblestudy" value="biblestudy">
+                <label for="biblestudy">Bible Study</label><br>
+                <input type="checkbox" id="marriage" name="marriage" value="marriage">
+                <label for="marriage">Marriage</label><br>
+                <input type="checkbox" id="addiction" name="addiction" value="addiction">
+                <label for="addiction">Addiction</label><br><br><br>
+                <input type="submit" value="Submit" />
+            </form>
+
+
+            <script>
+                function query(){
+                    const adjacencyMatrix = [[1,0,0,0,1,0],[0,1,0,0,1,0],[0,0,1,0,1,0],[1,1,0,1,0,0],[1,1,0,0,0,1]];
+                    //Rows: Men's, Women's, Youth, Marriage, Men's addiction
+                    //Columns: Men, Women, Youth, Marriage, Bible Study, Addiction
+
+                    const queryArray = [[0],[0],[0],[0],[0],[0]];
+
+                    var men = document.getElementById('men');
+                    if (men.checked){
+                        queryArray[0][0] = 1;
+                    }
+                    var women = document.getElementById('women');
+                    if (women.checked){
+                        queryArray[1][0] = 1;
+                    }
+                    var youth = document.getElementById('youth');
+                    if (youth.checked){
+                        queryArray[2][0] = 1;
+                    }
+                    
+                    var marriage = document.getElementById('marriage');
+                    if (marriage.checked){
+                        queryArray[3][0] = 1;
+                    }
+                    var bibleStudy = document.getElementById('biblestudy');
+                    if (bibleStudy.checked){
+                        queryArray[4][0] = 1;
+                    }
+                    var addiction = document.getElementById('addiction');
+                    if (addiction.checked){
+                        queryArray[5][0] = 1;
+                    }
+                    
+
+
+                    let result = math.multiply(adjacencyMatrix, queryArray);
+                    var currentlargest = 0;
+                    var highest = 0;
+                    var highest2 = 0;
+                    var highest2index = 0;
+                    for (let i = 0; i < result.length; i++) {
+                        if(result[i] > currentlargest){
+                            highest2 = currentlargest;
+                            highest2index = highest;
+                            highest = i;
+                            currentlargest = result[i];
+                        }
+                    }
+                    
+
+                    
+
+                    if(highest == 0){
+                        window.alert("Try checking out our Men's Ministry Group!");
+                    }
+                    if(highest == 1){
+                        window.alert("Try checking out our Women's Ministry Group!");
+                    }
+                    if(highest == 2){
+                        window.alert("Try checking out our Youth Group!");                    
+                    }
+                    if(highest == 3){
+                        window.alert("Try checking out our Marriage and Couples Group!");                    
+                    }
+                    if(highest == 4){
+                        window.alert("Try checking out our Men's Addiction Group!");                    
+                    }
+
+                    if(highest2 != 0){
+                        if(highest2index == 0){
+                        window.alert("Try checking out our Men's Ministry Group!");
+                        }
+                        if(highest2index == 1){
+                            window.alert("Try checking out our Women's Ministry Group!");
+                        }
+                        if(highest2index == 2){
+                            window.alert("Try checking out our Youth Group!");                    
+                        }
+                        if(highest2index == 3){
+                            window.alert("Try checking out our Marriage and Couples Group!");                    
+                        }
+                        if(highest2index == 4){
+                            window.alert("Try checking out our Men's Addiction Group!");                    
+                        }
+                    }
+                    
+                }
+
+            </script>
+        </div>
+
+        <div class="news">
+            <h3>Upcoming Events</h3>
+            <img src="images/joel.png" />
+            <br>
+            <img src="images/joel.png" />
+        </div>
+
+
+    </body>
+    <br><div class="clear"></div><br><div class="clear"></div><br><div class="clear"></div>
+    <footer>
+        <br>
+        <script>document.write("Great Rock Church ", new Date().getFullYear() );</script>
+        <h4>256 Andover St. Danvers, Ma. 01923</h4>
+    </footer>
+</html>
